@@ -1,0 +1,204 @@
+Building configuration...
+
+Current configuration : 4425 bytes
+!
+! Last configuration change at 23:18:51 UTC Fri Dec 13 2024 by xiam
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+platform console virtual
+!
+hostname R1_Amsterdam
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+ip domain name xiam.nl
+ip dhcp excluded-address 192.168.10.1 192.168.10.50
+!
+ip dhcp pool dhcpPoolGi2
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1 
+ dns-server 192.168.10.1 
+ domain-name 192.168.10.1
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-322756465
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-322756465
+ revocation-check none
+ rsakeypair TP-self-signed-322756465
+!
+!
+crypto pki certificate chain TP-self-signed-322756465
+ certificate self-signed 01
+  3082032E 30820216 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 33323237 35363436 35301E17 0D323230 31303831 38303034 
+  365A170D 33303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3332 32373536 
+  34363530 82012230 0D06092A 864886F7 0D010101 05000382 010F0030 82010A02 
+  82010100 CDE0F5D9 5BE41F8F 7964AD1C AB36D201 D7AACD4B 856CD545 3ED88DBD 
+  BABEB5FF C4CBB886 AEB9D7CB E78B799B 796216D3 23481988 6C840414 4D936204 
+  BBCA0AFA 0B77F05D 0C6A541A F8C2BACF 470D1609 F38AF297 A0ACFD0F 94001C54 
+  7EF50C67 0EEC9E69 DA1EBAF6 E12EC7A2 303EB308 0CCC2EC9 0C2AEA70 23EE90CC 
+  B1A0D58B 9747563B ADB7B041 0BB29D21 8F41FBA3 BB891334 3E3A5480 621BD4DB 
+  87DA12FA 877316ED 270119F6 9368F883 31AC40B6 47D85F4C 5B01B53D 32D687FF 
+  D51DB957 22D9247D 7948D6D6 897076F9 587A6096 F88F943E B70A0B0A 9B54AC21 
+  5B371380 640196B2 E00B962F 0C1E58DF 91F73FB8 FF030BDE B3637B72 DDF922F7 
+  220E192F 02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 
+  0603551D 23041830 168014FC DF0AB039 53914351 FE4D8D9F B0863124 98913330 
+  1D060355 1D0E0416 0414FCDF 0AB03953 914351FE 4D8D9FB0 86312498 9133300D 
+  06092A86 4886F70D 01010505 00038201 0100C2C9 9D1D7520 985C9881 2A7442EA 
+  52A8F75D 8F9592B1 76A965E9 B3097DD0 9FBA280C 6DB2725F C9436BD0 43E9824E 
+  2F183B8B 12F6E9EF 21C99DC8 D2556B3B 4218DDE6 A0816EFB 4ECB21C8 4C40EE27 
+  24E10756 A9C0C2F0 533970FF DF96D151 4C339823 D7488B25 E486C70F F16CF78C 
+  3479FB7F AECDB555 B6CA5683 36C02DEF 98C23173 42F40DAD 18F9AAAC E7AE0658 
+  51D13B15 2E20CD3A 5F60EE63 BA4EC2EC BB815BB7 585C2467 736AE3F4 7CDE1FFF 
+  D689E784 FA4EE95B 361AEF45 70ADB01C F685C6A1 4781C77D 4B10FCBD DBC5FB5F 
+  B1B40D8D 71DD27EF 52FB7BBD 7C6D4BBD 8BFF722A E3A63EF3 322FA01C 985E2B47 
+  3969B86F A613B554 944EFC54 32125A8E 25CB
+  	quit
+!
+!
+!
+!
+!
+!
+!
+!
+license udi pid CSR1000V sn 9OKJM80NQQU
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+netconf-yang
+!
+restconf
+!
+username cisco privilege 15 password 0 cisco123!
+username xiam privilege 15 secret 5 $1$ZeCw$vXpt7RJ3FOFd8qD.WO8jk.
+!
+redundancy
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface GigabitEthernet1
+ description VBox
+ ip address 192.168.1.12 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+interface GigabitEthernet2
+ ip address 192.168.10.1 255.255.255.0
+ negotiation auto
+ no mop enabled
+ no mop sysid
+!
+router ospf 1
+ network 10.0.0.0 0.0.0.3 area 0
+ network 192.168.10.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+no ip http server
+ip http authentication local
+ip http secure-server
+!
+ip ssh version 2
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+banner motd ^C
+*                                           *
+**                                         **
+***                                       ***
+***  Cisco Networking Academy             ***
+***                                       ***
+***  This software is provided for        ***
+***   Educational Purposes                ***
+***    Only in Networking Academies       ***
+***                                       ***
+**                                         **
+*                                           *
+^C
+!
+line con 0
+ logging synchronous
+ stopbits 1
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+!
+!
+!
+!
+!
+end

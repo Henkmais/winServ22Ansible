@@ -1,0 +1,4 @@
+
+[winServers]
+ server1 ansible_host=192.168.73.11 ansible_user=Administrator ansible_password=Xi@m2007! ansible_connection=winrm ansible_winrm_server_cert_validation=ignore
+
