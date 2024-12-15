@@ -5,21 +5,26 @@
     ansible.windows.win_hostname:
       name: winHomeServer1
     register: res
-
-  - name: Set up static IP address
-    win_shell: "Get-NetIpAddress -InterfaceAlias 'Ethernet*' | New-NetIpAddress -IpAddress 192.168.73.11 -PrefixLength 24 -DefaultGateway 192.168.73.1"
-    async: 100 
-    poll: 0
-  
+ 
   - name: Install AD DS role
     ansible.windows.win_feature:
         name: AD-Domain-Services
         state: present
+
+  - name: Reboot the server after AD DS installation
+    ansible.windows.win_reboot:
+      reboot_timeout: 600
+      test_command: "Get-Service -Name 'NTDS'"
+    when: res.changed  
+
+
+  - name: Set up static IP address
+    win_shell: "Get-NetIpAddress -InterfaceAlias 'Ethernet*' | New-NetIpAddress -IpAddress 192.168.73.11 -PrefixLength 24 -DefaultGateway 192.168.73.2" #.2 is being used becasue this is a virutal machine
+    async: 100 
+    poll: 0
+    
   - name: Promote server to Domain Controller
     ansible.windows.win_shell:
-        command: |
+        _raw_params: |
           Import-Module ADDSDeployment
-          Install-ADDSForest `
-            -DomainName "xiam.bl" `
-            -SafeModeAdministratorPassword "Xiam2007!"
-            -Force
+          Install-ADDSForest -DomainName "Xiam.nl" -SafeModeAdministratorPassword (ConvertTo-SecureString "Xi@m2007!" -AsPlainText -Force) -Force

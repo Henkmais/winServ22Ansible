@@ -1,0 +1,7 @@
+- name: Turns ipv6 off on windows server 2022
+  hosts: winServers
+  tasks:
+    - name: Turns ipv6 off
+      community.vmware.vmware_host_ipv6:    
+        state: disabled
+      delegate_to: winServers

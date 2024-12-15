@@ -1,0 +1,35 @@
+- name: Installs and sets up Remote desktop for windows server 22
+  hosts: winServers
+  tasks:
+    - name: Ensure RDP is enabled
+      win_service:
+        name: TermService
+        state: started
+        start_mode: auto
+
+    - name: Allow RDP through the firewall
+      win_firewall_rule:
+        name: "Allow RDP"
+        enable: yes
+        direction: in
+        localport: 3389
+        remoteport: any
+        action: allow
+        protocol: TCP
+
+    - name: Enable Remote Desktop (if needed)
+      win_regedit:
+        path: HKLM:\System\CurrentControlSet\Control\Terminal Server
+        name: fDenyTSConnections
+        data: 0
+        type: dword
+        state: present
+
+    - name: Enable Remote Desktop via Group Policy
+      win_regedit:
+        path: HKLM:\Software\Policies\Microsoft\Windows NT\Terminal Services
+        name: fDenyTSConnections
+        data: 0
+        type: dword
+        state: present
+
