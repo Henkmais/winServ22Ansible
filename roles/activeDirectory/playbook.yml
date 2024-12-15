@@ -16,3 +16,7 @@
       username: "Administrator"
       state: domain
     register: domain_result
+
+  - name: Reboot server
+    ansible.windows.win_reboot:
+    
