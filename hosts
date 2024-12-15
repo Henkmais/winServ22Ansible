@@ -1,7 +1,6 @@
 
 [winServers]
- server1 ansible_host=192.168.73.11 
-
+ server1 ansible_host=192.168.73.11
 
 [winServers:vars]
 ansible_user=Administrator 

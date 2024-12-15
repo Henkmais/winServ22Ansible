@@ -19,12 +19,8 @@
 
 
   - name: Set up static IP address
-    win_shell: "Get-NetIpAddress -InterfaceAlias 'Ethernet*' | New-NetIpAddress -IpAddress 192.168.73.11 -PrefixLength 24 -DefaultGateway 192.168.73.2" #.2 is being used becasue this is a virutal machine
+    win_shell: "Get-NetIpAddress -InterfaceAlias 'Ethernet*' | New-NetIpAddress -IpAddress 192.168.73.11 -PrefixLength 24 -DefaultGateway 192.168.73.1"
     async: 100 
     poll: 0
     
-  - name: Promote server to Domain Controller
-    ansible.windows.win_shell:
-        _raw_params: |
-          Import-Module ADDSDeployment
-          Install-ADDSForest -DomainName "Xiam.nl" -SafeModeAdministratorPassword (ConvertTo-SecureString "Xi@m2007!" -AsPlainText -Force) -Force
+  

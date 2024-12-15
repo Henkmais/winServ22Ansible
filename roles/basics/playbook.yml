@@ -1,0 +1,19 @@
+---
+- name: Setting up standard things on a Windows server
+  hosts: winServers
+  tasks:
+  - name: Change the hostname to winHomeServer1
+    ansible.windows.win_hostname:
+      name: winHomeServer1
+    register: res
+
+  - name: Set up static IP address
+    win_shell: |
+      $interface = Get-NetAdapter | Where-Object { $_.Status -eq "Up" -and $_.Name -like "Ethernet*" }
+      New-NetIpAddress -InterfaceAlias $interface.Name -IPAddress 192.168.73.11 -PrefixLength 24 -DefaultGateway 192.168.73.2
+      Set-DnsClientServerAddress -InterfaceAlias $interface.Name -ServerAddresses @('127.0.0.1', '192.168.73.2')
+    async: 100
+    poll: 0
+  
+  - name: Rebooting the server for the hostname
+    ansible.windows.win_reboot:

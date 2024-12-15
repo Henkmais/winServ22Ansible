@@ -1,0 +1,18 @@
+---
+- name: Installs Active Directory
+  hosts: winServers
+  tasks:
+  - name: Install AD DS role
+    ansible.windows.win_feature:
+       name: AD-Domain-Services
+       include_management_tools: yes
+       include_sub_features: yes
+       state: present
+
+  - name: Create Domain and Promote to Domain Controller
+    ansible.windows.win_domain:
+      dns_domain_name: "Xiam.nl"
+      safe_mode_password: "Xi@m2007!"
+      username: "Administrator"
+      state: domain
+    register: domain_result
